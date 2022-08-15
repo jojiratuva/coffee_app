@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../frontend/style/style.css">
+</head>
+
+<body>
+    <h1>Coffee Ordering app</h1>
+    <div id="tools">
+        <!-- forms are way we can wrap inputs -->
+        <!-- if we dont add js void, the page will refresh when you submit the form -->
+        <form id="add-coffee-form" action="javascript:void(0)">
+            <label for="name-input">Name: </label>
+            <input id="name-input" name="name-input" type="text">
+            <label for="price-input">Price: </label>
+            <input id="price-input" name="price-input" type="number">
+            <label for="image-url-input">Image URL</label>
+            <input id="image-url-input" name="image-url-input" type="text">
+            <button id="add-coffee">Go</button>
+        </form>
+    </div>
+    <button id="add-coffee">Add a latte</button>
+    <div id="result"></div>
+
+    </div>
+    <!-- script  -->
+    <!-- jquery  -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- local script  -->
+    <script src="../frontend/js/script.js"></script>
+</body>
+
+</html>
