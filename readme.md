@@ -1,8 +1,9 @@
 <h1>this is my mongoDB Project, useing node.js</h1>
 
+<p>to start app</p>
 - open terminal
 - cd into **backend** _folder
-- start the app use terminal and intiate sequence
+- intiate sequence
 ```
 npm run go
 ```
