@@ -29,3 +29,16 @@ h1 {
 #result img {
     width: 100%;
 }
+
+.modal {
+    .modal-dialog {
+        .modal-content {}
+
+        .modal-body {
+            img {
+                object-fit: cover;
+                width: 100%;
+            }
+        }
+    }
+}

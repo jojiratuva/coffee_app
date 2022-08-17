@@ -32,4 +32,10 @@ h1 {
 #result img {
   width: 100%;
 }
+
+.modal .modal-dialog .modal-body img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
 /*# sourceMappingURL=style.css.map */

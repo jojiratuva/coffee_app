@@ -1,4 +1,8 @@
 // setting up our dependencies
+// -----------------------------------------------------
+//                              DEPENDENCIES 
+// ----------------------------------------------------
+
 const express = require('express');
 const app = express();
 const port = 3100;
@@ -9,23 +13,38 @@ const bodyParser = require('body-parser');
 // this is our middleware for talking to mongodb 
 const mongoose = require('mongoose');
 const config = require('./config.json');
-console.log(config.user);
-// schemas 
+// console.log(config.user);
+// ----------------------------------------------------
+//                              SCHEMAS 
+// ----------------------------------------------------
+
 // every schema needs to start with a capital 
 
-const { schema } = require('./models/coffee');
-const Coffee = require('./models/coffee')
+const { schema, findById } = require('./models/coffee');
+const Coffee = require('./models/coffee');
+const coffee = require('./models/coffee');
 
-// Start our dependencies
+// ------------------------------------------------ 
+//                              START DEPENDENCIES
+// ------------------------------------------------ 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
 
-// start our server 
+// -------------------------------------------------- 
+//                                 STRART SERVER
+// -------------------------------------------------- 
+
+// start our server
 app.listen(port, () => {
     console.log(Coffee);
     console.log(`server running ${port}`)
 })
+
+// ---------------------------------------
+//                 AUTHENTICATE MONGODB
+// ---------------------------------------
 
 // let's connect to mongoDB cloud
 // Cluster name: mycluster
@@ -45,6 +64,10 @@ mongoose.connect(
 
 // Set up a route/endpoint which the frontend will access
 // app.post will send data to the database
+
+// ----------------------------------------
+//                      ADD METHOD
+// ----------------------------------------
 
 app.post('/addCoffee', (req, res) => {
     // create a new instance of the coffee schema
@@ -69,7 +92,11 @@ app.post('/addCoffee', (req, res) => {
         })
 });
 
+// ----------------------------------------
+//                      ADD GET 
+// ----------------------------------------
 //here we are setting up a new route
+
 
 app.get('/allCoffee', (req, res) => {
     // .find will search for all the coffees
@@ -83,4 +110,60 @@ app.get('/allCoffee', (req, res) => {
             // in other words, send back the result to the frontend
             res.send(result)
         })
+})
+
+// set up delete route 
+// this route will only be activated when user clicks on it in the browser
+
+// ----------------------------------------------
+//                        ADD DELETE 
+//-----------------------------------------------
+
+
+app.delete('/deleteCoffee/:id', (req, res) => {
+
+    const coffeeId = req.params.id;
+    console.log(`this id has been deleted`);
+    console.log(coffeeId);
+    // findById() looks up a piece of dara based on the id arhument which we give to it first
+    // we're giving it the offeeOd variable 
+    // then function will provide is the details on that coffee or an error if it doesnt work
+    Coffee.findById(coffeeId, (err, coffee) => {
+        if (err) {
+            console.log(err);
+        } else {
+            // console.log(coffee);
+            Coffee.deleteOne({ _id: coffeeId })
+                .then(() => {
+                    console.log(`actually delete from MongoDB`);
+                    res.send(coffee)
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    })
+})
+
+//---------------------------
+// ADD PATCH 
+//---------------------------
+
+app.patch('/updateProduct/:id', (req, res) => {
+    const idParam = req.params.id;
+    Coffee.findById(idParam, (err, coffee) => {
+        const updatedProduct = {
+            name: req.body.name,
+            price: req.body.price,
+            image_url: req.body.image_url
+        }
+        Coffee.updateOne({
+            _id: idParam
+        }, updatedProduct).
+            then(result => {
+                res.send(result);
+            })
+            .catch(err => res.send(err))
+    })
 })
