@@ -63,9 +63,9 @@ let deleteCoffee = (coffeeId) => {
         // requesting to POST our data
         type: 'DELETE',
 
-        success: (data) => {
+        success: () => {
             // console.log(data);
-            refreshCoffee(data)
+            refreshCoffee()
         },
         error: () => {
             console.log("Error: cannot reach the backend")
@@ -102,7 +102,7 @@ let renderCoffees = (coffees) => {
         <h3>${item.name}</h3>
         <p>$${item.price}</p> 
         <button id="${item._id}" class="delete">delete</button>
-        <button id="${item._id}" class="edit" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button id="${item._id}" class="edit" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen-to-square"></i></button>
         </div>
         `
     });
@@ -149,11 +149,48 @@ $('#updateProduct').click(function () {
 
 })
 
-// script
-// const updateBtn = document.getElementById('updateProduct');
+// this function checks if the users logged in
+// if they are, show the username and their profile image
 
-// updateBtn.onclick = () => {
-//     console.log('clicked update btn');
-// }
+// this function checks if the users logged in
+// if they are, show the username and their profile image
 
+let checkLogin = () => {
+    const userDetails = document.getElementById("user-details");
+    let navContent;
+    if (sessionStorage.userID) {
+        // console.log("You're logged in")
+        // console.log(sessionStorage.userName)
+        navContent = `
+      <span id="username">${sessionStorage.userName}</span>
+      <span id="dp" style="background-image: url('${sessionStorage.profileImg}')"></span>
+      <a id="sign-out-button" href="#">sign out</a>
 
+      `
+    }
+    // if they're not logged in 
+    else {
+        navContent = `
+        <a href="login.html">Login</a>
+        <a href="signup.html">Signup</a>
+        `;
+    }
+    // render our logged in elements
+    userDetails.innerHTML = navContent;
+}
+
+checkLogin();
+
+// signout button 
+
+const signoutBtn = document.getElementById(`sign-out-button`);
+
+let logOut = () => {
+    console.log('logged out');
+    sessionStorage.clear();
+    window.location.reload()
+}
+if (sessionStorage.userID) {
+
+    signoutBtn.onclick = () => logOut();
+}
